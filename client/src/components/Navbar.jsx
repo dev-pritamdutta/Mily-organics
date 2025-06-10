@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 import { assets } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 import toast from "react-hot-toast";
-import logo from '../assets/m5.jpeg'
+import logo from '../assets/mily.jpeg'
 
 const Navbar = () => {
   const [open, setOpen] = React.useState(false);
