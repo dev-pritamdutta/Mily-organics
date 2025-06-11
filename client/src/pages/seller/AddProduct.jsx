@@ -44,7 +44,7 @@ const AddProduct = () => {
       toast.error(error.message);
     }
     // You can handle form submission logic here
-    console.log({ files, name, description, category, price, offerPrice });
+    // console.log({ files, name, description, category, price, offerPrice });
   };
 
   return (
@@ -146,7 +146,7 @@ const AddProduct = () => {
         <div className="flex items-center gap-5 flex-wrap">
           <div className="flex-1 flex flex-col gap-1 w-32">
             <label className="text-base font-medium" htmlFor="product-price">
-              Product Price
+              Offer Price
             </label>
             <input
               id="product-price"
@@ -160,7 +160,7 @@ const AddProduct = () => {
           </div>
           <div className="flex-1 flex flex-col gap-1 w-32">
             <label className="text-base font-medium" htmlFor="offer-price">
-              Offer Price
+              Product Price
             </label>
             <input
               id="offer-price"
