@@ -23,7 +23,7 @@ const App = () => {
   const isSellerPath = useLocation().pathname.includes("seller");
   const { showUserLogin, isSeller } = useAppContext();
   return (
-    <div className="text-default min-h-screen text-gray-700 bg-[#f1eee8] ">
+    <div className="text-default min-h-screen  text-gray-700 bg-[#f1eee8] ">
       {isSellerPath ? null : <Navbar />}
       {showUserLogin ? <Login /> : null}
 

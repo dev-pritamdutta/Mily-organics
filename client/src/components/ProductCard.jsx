@@ -15,34 +15,37 @@ const ProductCard = ({ product }) => {
           );
           scrollTo(0, 0);
         }}
-        className="bg-white w-full rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group"
+        className="bg-[#f9f7f2] w-full rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-all duration-300 group cursor-pointer"
       >
-        {/* Image Container */}
+        {/* Image */}
         <div className="relative overflow-hidden">
           <img
-            className="w-full h-64 object-fill group-hover:scale-105 transition duration-500"
+            className="w-full h-64 object-cover group-hover:scale-105 transition duration-500 rounded-t-md"
             src={product.image[0]}
             alt={product.name}
           />
         </div>
 
-        {/* Product Info */}
+        {/* Info */}
         <div className="p-4 border-t">
-          <p className="text-gray-500 text-sm mb-1">{product.category}</p>
-          <p className="text-gray-800 font-medium text-base line-clamp-2 min-h-[50px]">
+          <p className="text-gray-800 font-semibold text-base line-clamp-2 min-h-[50px] mb-1">
             {product.name}
           </p>
-
+          <p className="text-gray-600 text-sm mb-3">
+            {product.description.length > 100
+              ? product.description.slice(0, 100) + "..."
+              : product.description}
+          </p>
 
           <div
             className="flex items-center justify-between mt-3"
             onClick={(e) => e.stopPropagation()}
           >
             <div>
-              <p className="text-lg font-medium text-[var(--color-primary)]">
+              <p className="text-xl font-semibold text-[#d3762f]">
                 {currency}
                 {product.offerPrice}
-                <span className="text-sm text-gray-400 line-through ml-2">
+                <span className="text-sm text-gray-400 line-through ml-2 font-normal">
                   {currency}
                   {product.price}
                 </span>
@@ -52,7 +55,7 @@ const ProductCard = ({ product }) => {
             <div className="text-[var(--color-primary)]">
               {!cartItems[product._id] ? (
                 <button
-                  className="flex items-center justify-center gap-1 bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/40 px-4 h-[34px] rounded-full cursor-pointer hover:bg-[var(--color-primary)]/20 transition-colors"
+                  className="flex items-center justify-center gap-1 bg-[var(--color-primary)]/10 border border-[var(--color-primary)]/30 px-4 py-1.5 rounded-full cursor-pointer hover:bg-[var(--color-primary)]/20 transition-colors text-sm"
                   onClick={() => addToCart(product._id)}
                 >
                   <img

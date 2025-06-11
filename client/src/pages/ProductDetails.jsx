@@ -27,7 +27,7 @@ const ProductDetails = () => {
 
   return (
     product && (
-      <div className="mt-12">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 mt-12">
         <p>
           <Link to={"/"}>Home</Link> /<Link to={"/products"}> Products</Link> /
           <Link to={`/products/${product.category.toLowerCase()}`}>
