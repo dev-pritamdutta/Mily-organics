@@ -10,6 +10,7 @@ const AddProduct = () => {
   const [category, setCategory] = useState("");
   const [price, setPrice] = useState("");
   const [offerPrice, setOfferPrice] = useState("");
+  const [productType, setProductType] = useState("");
 
   const { axios } = useAppContext();
 
@@ -22,6 +23,7 @@ const AddProduct = () => {
         category,
         price,
         offerPrice,
+        productType,
       };
       const formData = new FormData();
       formData.append("productData", JSON.stringify(productData));
@@ -37,6 +39,7 @@ const AddProduct = () => {
         setPrice("");
         setOfferPrice("");
         setFiles([]);
+        setProductType("");
       } else {
         toast.error(data.message);
       }
@@ -44,7 +47,15 @@ const AddProduct = () => {
       toast.error(error.message);
     }
     // You can handle form submission logic here
-    // console.log({ files, name, description, category, price, offerPrice });
+    console.log({
+      files,
+      name,
+      description,
+      category,
+      price,
+      offerPrice,
+      productType,
+    });
   };
 
   return (
@@ -172,6 +183,22 @@ const AddProduct = () => {
               className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
             />
           </div>
+        </div>
+        {/* Product Type Dropdown */}
+        <div className="w-full flex flex-col gap-1">
+          <label className="text-base font-medium" htmlFor="productType">
+            Product Type
+          </label>
+          <select
+            id="productType"
+            value={productType}
+            onChange={(e) => setProductType(e.target.value)}
+            className="outline-none md:py-2.5 py-2 px-3 rounded border border-gray-500/40"
+          >
+            <option value="">Select Type</option>
+            <option value="normal">Normal</option>
+            <option value="bestseller">Bestseller</option>
+          </select>
         </div>
 
         {/* Submit Button */}
