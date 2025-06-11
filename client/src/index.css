@@ -12,9 +12,7 @@
   font-family: "Outfit", sans-serif;
 }
 
-body {
-  background: var(--color-primary-dull); /* soft green background */
-}
+
 
 /* Apply font to all elements */
 * {
