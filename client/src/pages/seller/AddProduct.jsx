@@ -162,7 +162,7 @@ const AddProduct = () => {
             <input
               id="product-price"
               type="number"
-              placeholder="0"
+              placeholder="130"
               required
               value={price}
               onChange={(e) => setPrice(e.target.value)}
@@ -176,7 +176,7 @@ const AddProduct = () => {
             <input
               id="offer-price"
               type="number"
-              placeholder="0"
+              placeholder="110"
               required
               value={offerPrice}
               onChange={(e) => setOfferPrice(e.target.value)}

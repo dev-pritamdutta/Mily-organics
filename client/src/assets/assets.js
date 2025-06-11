@@ -70,7 +70,15 @@ import quinoa_image from "./quinoa_image.png";
 import brown_rice_image from "./brown_rice_image.png";
 import barley_image from "./barley_image.png";
 
+//-------------------------
+import hairoil from "./hairoil.jpg";
+import handwash from "./handwash.jpg";
+import soap_img from "./soap2.jpg";
+
 export const assets = {
+  hairoil,
+  handwash,
+  soap_img,
   logo,
   search_icon,
   remove_icon,
@@ -102,26 +110,25 @@ export const assets = {
 
 export const categories = [
   {
-    text: "Organic veggies",
-    path: "Vegetables",
-    image: organic_vegitable_image,
-    bgColor: "#FEF6DA",
+    text: "Natural Soaps",
+    path: "soap",
+    image: soap_img,
+    bgColor: "#FEF6DA", // Soft yellow
   },
   {
-    text: "Fresh Fruits",
-    path: "Fruits",
-    image: fresh_fruits_image,
-    bgColor: "#FEE0E0",
+    text: "Gentle Facewash",
+    path: "facewash",
+    image: handwash,
+    bgColor: "#FEE0E0", // Light pink
   },
   {
-    text: "Cold Drinks",
-    path: "Drinks",
-    image: bottles_image,
-    bgColor: "#F0F5DE",
+    text: "Hair Oils",
+    path: "hairoil",
+    image: hairoil,
+    bgColor: "#E0F7EC", // Light mint green
   },
-
-
 ];
+
 
 export const footerLinks = [
   {

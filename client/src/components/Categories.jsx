@@ -9,7 +9,7 @@ const Categories = () => {
       <h2 className="text-2xl md:text-3xl font-medium text-center my-10 text-[#2f4738]">
         Shop By Category
       </h2>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6  mx-auto">
         {categories.map((category, index) => (
           <div
             key={index}

@@ -8,13 +8,15 @@ import Collection from "../components/Collection";
 
 const Home = () => {
   return (
-    <div className="mt-10 min-h-screen max-w-screen-xl mx-auto px-4 sm:px-6 lg:px-8">
-      <MainBanner  />
-      <Categories />
-      <BestSeller />
-      <Collection/>
-      <BottomBanner />
-      <NewsLetter />
+    <div className="min-h-screen container mx-auto bg-[#f1eee8]">
+      <MainBanner/> {/* Full-width */}
+      <div className="px-6 md:px-16 lg:px-24 xl:px-32">
+        <Categories />
+        <BestSeller />
+        <Collection />
+        <BottomBanner />
+        <NewsLetter />
+      </div>
     </div>
   );
 };

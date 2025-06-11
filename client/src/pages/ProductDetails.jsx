@@ -79,7 +79,6 @@ const ProductDetails = () => {
               <p className="text-2xl font-medium">
                 MRP:{currency} {product.offerPrice}
               </p>
-              <span className="text-gray-500/70">(inclusive of all taxes)</span>
             </div>
 
             <p className="text-base font-medium mt-6">About Product</p>
