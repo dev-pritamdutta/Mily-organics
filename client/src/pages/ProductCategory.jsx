@@ -17,18 +17,18 @@ const ProductCategory = () => {
   );
 
   return (
-    <div className="mt-16">
+    <div className="mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       {searchCategory && (
         <div className="flex flex-col items-end w-max">
-          <p className="text-2xl font-medium">
+          <p className="text-2xl font-medium text-[#0c671e] ">
             {searchCategory.text.toUpperCase()}
           </p>
-          <div className="w-16 h-0.5 bg-[var(--color-primary)] rounded-full"></div>
+          <div className="w-16 h-0.5 bg-[#d57e21cf] rounded-full"></div>
         </div>
       )}
 
       {filteredProducts.length > 0 ? (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3 md:gap-6 mt-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6 mt-6">
           {filteredProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
           ))}
