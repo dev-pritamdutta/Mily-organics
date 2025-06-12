@@ -3,8 +3,6 @@ import { Link, Outlet, NavLink } from "react-router-dom";
 import { assets } from "../../assets/assets";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
-import logo from "../../assets/m5.jpeg";
-
 const SellerLayout = () => {
   const { axios, navigate } = useAppContext();
 
@@ -33,22 +31,25 @@ const SellerLayout = () => {
       toast.success(error.message);
     }
   };
+  //   #a5754d
+  // #7f9d88
+  // #f1eee8
 
   return (
     <>
-      <div className="flex items-center justify-between px-4 md:px-8 border-b border-gray-300 py-3 bg-white">
+      <div className="flex items-center justify-between px-4 md:px-8 lg:px-16 border-b border-gray-300 py-3 bg-[#3aae68dd]">
         <Link to="/">
           <img
-            src={logo}
+            src={assets.logo}
             alt="logo"
-            className="cursor-pointer lg:w-24 w-36 md:w-40"
+            className="cursor-pointer h-16 rounded-xl w-24 md:h-16"
           />
         </Link>
-        <div className="flex items-center gap-5 text-gray-500">
+        <div className="flex items-center gap-5 text-white">
           <p>Hi! Admin</p>
           <button
             onClick={logout}
-            className="border rounded-full text-sm px-4 py-1"
+            className="border border-amber-50 rounded-full cursor-pointer text-sm px-4 py-1 hover:bg-red-400 transition-all duration-300"
           >
             Logout
           </button>
