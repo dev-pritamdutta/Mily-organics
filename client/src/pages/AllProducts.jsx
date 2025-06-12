@@ -52,18 +52,22 @@ const AllProducts = () => {
         <p className="text-2xl font-medium uppercase">All Products</p>
         <div className="w-16 h-0.5 bg-[var(--color-primary)] rounded-full"></div>
       </div>
-
-      {/* Sort Dropdown */}
-      <select
-        value={sortOption}
-        onChange={(e) => setSortOption(e.target.value)}
-        className="mt-4 w-36  text-left py-1  border bg-gray-100 border-gray-300 rounded text-sm"
-      >
-        <option value="default">Sort By</option>
-        <option value="alphabet">Alphabetically (A-Z)</option>
-        <option value="lowToHigh">Price: Low to High</option>
-        <option value="bestseller">Best Sellers Only</option>
-      </select>
+      <div className="my-4">
+        <label htmlFor="sort" className="mr-2">
+          Sort by:
+        </label>
+        {/* Sort Dropdown */}
+        <select
+          value={sortOption}
+          onChange={(e) => setSortOption(e.target.value)}
+          className="mt-4 w-36  text-left py-1  border bg-gray-100 border-gray-300 rounded text-sm"
+        >
+          <option value="default">default</option>
+          <option value="alphabet">Alphabetically (A-Z)</option>
+          <option value="lowToHigh">Price: Low to High</option>
+          <option value="bestseller">Best Sellers Only</option>
+        </select>
+      </div>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-6 lg:grid-cols-4 mt-6">
         {filteredProducts
