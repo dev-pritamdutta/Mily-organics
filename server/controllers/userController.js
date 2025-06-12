@@ -97,3 +97,15 @@ export const logout = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+// Get All Users : /api/user/list
+export const getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find({}, { password: 0 });
+    res.json({ success: true, users });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+

@@ -71,11 +71,13 @@ import brown_rice_image from "./brown_rice_image.png";
 import barley_image from "./barley_image.png";
 
 //-------------------------
+import alluser from "./alluser1.png"
 import hairoil from "./hairoil.jpg";
 import handwash from "./handwash.jpg";
 import soap_img from "./soap2.jpg";
 
 export const assets = {
+  alluser,
   hairoil,
   handwash,
   soap_img,
