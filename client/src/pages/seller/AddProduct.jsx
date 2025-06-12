@@ -4,7 +4,9 @@ import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
 import Loading from "../../components/Loading";
 
+
 const AddProduct = () => {
+
   const [files, setFiles] = useState([]);
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");

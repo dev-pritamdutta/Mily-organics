@@ -28,12 +28,12 @@ const ProductCard = ({ product }) => {
 
         {/* Info */}
         <div className="p-4 border-t">
-          <p className="text-gray-800 font-semibold text-base line-clamp-2 min-h-[50px] mb-1">
+          <p className="text-gray-800 font-semibold text-base line-clamp-2 min-h-[30px] mb-1">
             {product.name}
           </p>
-          <p className="text-gray-600 text-sm mb-3">
-            {product.description.length > 100
-              ? product.description.slice(0, 100) + "..."
+          <p className="text-gray-500 text-sm mb-3 ">
+            {product.description.length > 90
+              ? product.description.slice(0, 90) + "..."
               : product.description}
           </p>
 

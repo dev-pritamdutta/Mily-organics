@@ -1,9 +1,11 @@
 import React from "react";
 import { useAppContext } from "../../context/AppContext";
 import toast from "react-hot-toast";
+import { FaEdit, FaTrash } from "react-icons/fa";
 
 const ProductList = () => {
-  const { products, currency, axios, fetchProducts } = useAppContext();
+  const { products, currency, axios, fetchProducts, navigate } =
+    useAppContext();
 
   const toggleStock = async (id, inStock) => {
     try {
@@ -16,6 +18,22 @@ const ProductList = () => {
       }
     } catch (error) {
       toast.error(error.message);
+    }
+  };
+  const handleDelete = async (id) => {
+    if (!window.confirm("Are you sure you want to delete this product?"))
+      return;
+    try {
+      const { data } = await axios.delete(`/api/product/delete/${id}`);
+      if (data.success) {
+        toast.success("Product deleted");
+        fetchProducts();
+      } else {
+        toast.error(data.message);
+      }
+    } catch (err) {
+      toast.error("Failed to delete product");
+      console.error(err);
     }
   };
 
@@ -31,6 +49,9 @@ const ProductList = () => {
                 <th className="px-4 py-3 font-semibold truncate">Category</th>
                 <th className="px-4 py-3 font-semibold truncate hidden md:block">
                   Selling Price
+                </th>
+                <th className="px-4 py-3 font-semibold truncate text-right">
+                  Actions
                 </th>
                 <th className="px-4 py-3 font-semibold truncate">In Stock</th>
               </tr>
@@ -50,24 +71,50 @@ const ProductList = () => {
                       {product.name}
                     </span>
                   </td>
+
                   <td className="px-4 py-3">{product.category}</td>
+
                   <td className="px-4 py-3 max-sm:hidden">
                     {currency}
                     {product.offerPrice}
                   </td>
+
                   <td className="px-4 py-3">
                     <label className="relative inline-flex items-center cursor-pointer text-gray-900 gap-3">
                       <input
+                        checked={product.inStock}
+                        onChange={() => {}} 
                         onClick={() =>
                           toggleStock(product._id, !product.inStock)
                         }
-                        checked={product.inStock}
                         type="checkbox"
                         className="sr-only peer"
                       />
                       <div className="w-12 h-7 bg-slate-300 rounded-full peer peer-checked:bg-blue-600 transition-colors duration-200"></div>
                       <span className="dot absolute left-1 top-1 w-5 h-5 bg-white rounded-full transition-transform duration-200 ease-in-out peer-checked:translate-x-5"></span>
                     </label>
+                  </td>
+
+                  <td className="px-4 py-3 text-right">
+                    <div className="flex justify-end gap-2">
+                      {/* Edit */}
+                      <button
+                        onClick={() => navigate(`/seller/edit/${product._id}`)}
+                        title="Edit"
+                        className="text-blue-600 hover:text-blue-800 transition"
+                      >
+                        <FaEdit />
+                      </button>
+
+                      {/* Delete */}
+                      <button
+                        onClick={() => handleDelete(product._id)}
+                        title="Delete"
+                        className="text-red-600 hover:text-red-800 transition"
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}

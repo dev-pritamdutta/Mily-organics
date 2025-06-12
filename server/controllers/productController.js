@@ -37,7 +37,7 @@ export const productList = async (req, res) => {
 //Get Single Product :/api/product/id
 export const productById = async (req, res) => {
   try {
-    const { id } = req.body;
+    const { id } = req.params;
     const product = await Product.findById(id);
     res.json({ success: true, product });
   } catch (error) {
@@ -45,6 +45,52 @@ export const productById = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+// DELETE Product : /api/product/delete/:id
+export const deleteProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    await Product.findByIdAndDelete(id);
+    res.json({ success: true, message: "Product deleted successfully." });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+// UPDATE Product : /api/product/update/:id
+export const updateProduct = async (req, res) => {
+  try {
+    const productData = JSON.parse(req.body.productData);
+    const files = req.files;
+
+    let imageUrls = [];
+
+    if (files?.length) {
+      imageUrls = await Promise.all(
+        files.map(async (file) => {
+          const result = await cloudinary.uploader.upload(file.path, {
+            resource_type: "image",
+          });
+          return result.secure_url;
+        })
+      );
+    }
+
+    const updated = {
+      ...productData,
+      ...(imageUrls.length && { image: imageUrls }),
+    };
+
+    await Product.findByIdAndUpdate(req.params.id, updated, { new: true });
+    res.json({ success: true, message: "Product updated successfully." });
+  } catch (error) {
+    console.error(error.message);
+    res.json({ success: false, message: error.message });
+  }
+};
+
+
 
 //Change  Product inStock :/api/product/stock
 export const changeStock = async (req, res) => {

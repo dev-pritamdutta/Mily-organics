@@ -37,15 +37,22 @@ const Orders = () => {
               />
               <div>
                 {order.items.map((item, index) => (
-                  <div key={index} className="flex flex-col ">
-                    <p className="font-medium">
-                      {item.product.name}{" "}
-                      <span className="text-[var(--color-primary)]">
-                        x {item.quantity}
-                      </span>
-                    </p>
-                  </div>
-                ))}
+  item.product ? (
+    <div key={index} className="flex flex-col ">
+      <p className="font-medium">
+        {item.product.name}{" "}
+        <span className="text-[var(--color-primary)]">
+          x {item.quantity}
+        </span>
+      </p>
+    </div>
+  ) : (
+    <div key={index} className="flex flex-col text-red-500 text-sm">
+      <p>Product no longer exists (was deleted)</p>
+    </div>
+  )
+))}
+
               </div>
             </div>
 
