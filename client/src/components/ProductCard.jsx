@@ -31,10 +31,8 @@ const ProductCard = ({ product }) => {
           <p className="text-gray-800 font-semibold text-base line-clamp-2 min-h-[30px] mb-1">
             {product.name}
           </p>
-          <p className="text-gray-500 text-sm mb-3 ">
-            {product.description.length > 90
-              ? product.description.slice(0, 90) + "..."
-              : product.description}
+          <p className="text-gray-500 text-sm mb-3 line-clamp-2 ">
+            {product.description.join(", ")}
           </p>
 
           <div

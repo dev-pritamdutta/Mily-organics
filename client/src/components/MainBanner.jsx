@@ -1,6 +1,5 @@
 import React from "react";
 import { assets } from "../assets/assets";
-import soap from "../assets/soap3.jpg";
 import { Link } from "react-router-dom";
 
 const MainBanner = () => {
@@ -48,9 +47,9 @@ const MainBanner = () => {
 
       {/* Right Image Section */}
       <img
-        className="w-96 md:w-2/5 rounded-2xl scale-x-[-1] max-md:mt-10 animate-fade-in"
-        src={soap}
+        src={assets.hairoil}
         alt="natural soap"
+        className="w-full max-w-md md:max-w-xl lg:max-w-2xl xl:max-w-3xl h-auto object-contain md:w-1/2 rounded-2xl scale-x-[-1] max-md:mt-10"
       />
     </main>
   );
