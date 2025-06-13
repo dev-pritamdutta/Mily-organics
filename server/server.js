@@ -19,7 +19,7 @@ await connectCloudinary();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://mily-organics-backend.vercel.app/",
+  "https://mily-organics.vercel.app",
 ];
 
 
