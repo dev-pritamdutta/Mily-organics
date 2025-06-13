@@ -21,6 +21,7 @@ import Loading from "./components/Loading";
 import EditProduct from "./pages/seller/EditProduct";
 import AllUsers from "./pages/seller/AllUsers";
 import About from "./components/About";
+import Contact from "./components/Contact";
 
 const App = () => {
   const isSellerPath = useLocation().pathname.includes("seller");
@@ -51,6 +52,7 @@ const App = () => {
 
         <Route path="/loader" element={<Loading />} />
         <Route path="/about" element={<About />} />
+        <Route path="/contact" element={<Contact />} />
 
         <Route
           path="/seller"

@@ -30,8 +30,6 @@ export const placeOrderCOD = async (req, res) => {
       amount += product.offerPrice * item.quantity;
     }
 
-    // Add 2% tax
-    amount += Math.floor(amount * 0.02);
 
     const order = await Order.create({
       userId,
@@ -89,8 +87,6 @@ export const placeOrderStripe = async (req, res) => {
       amount += product.offerPrice * item.quantity;
     }
 
-    // Add 2% tax
-    amount += Math.floor(amount * 0.02);
 
     const order = await Order.create({
       userId,
@@ -108,7 +104,7 @@ export const placeOrderStripe = async (req, res) => {
     const line_items = productData.map((item) => {
       return {
         price_data: {
-          currency: "usd",
+          currency: "tk",
           product_data: {
             name: item.name,
           },

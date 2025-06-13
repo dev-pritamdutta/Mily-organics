@@ -99,17 +99,18 @@ export const AppContextProvider = ({ children }) => {
     }
     return totalCount;
   };
-  //Get Cart Total Amount
+  // Get Cart Total Amount
   const getCartAmount = () => {
     let totalAmount = 0;
     for (const items in cartItems) {
-      let itemInfo = products.find((product) => product._id === items);
-      if (cartItems[items] > 0) {
+      const itemInfo = products.find((product) => product._id === items);
+      if (itemInfo && cartItems[items] > 0) {
         totalAmount += itemInfo.offerPrice * cartItems[items];
       }
     }
-    return Math.floor(totalAmount * 100) / 100;
+    return Number(totalAmount.toFixed(2)); //
   };
+
   useEffect(() => {
     fetchUser();
     fetchSeller();

@@ -285,7 +285,7 @@ const Cart = () => {
             <span>Total Amount:</span>
             <span>
               {currency}
-              {getCartAmount() + (getCartAmount() * 2) / 100}
+              {getCartAmount()}
             </span>
           </p>
         </div>
