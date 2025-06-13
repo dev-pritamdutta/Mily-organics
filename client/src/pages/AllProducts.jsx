@@ -6,18 +6,8 @@ const AllProducts = () => {
   const { products, searchQuery } = useAppContext();
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [sortOption, setSortOption] = useState("default");
-  useEffect(() => {
-    if (searchQuery.length > 0) {
-      setFilteredProducts(
-        products.filter((product) =>
-          product.name.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      );
-    } else {
-      setFilteredProducts(products);
-    }
-  }, [products, searchQuery]);
 
+  // sorting and serch filter implementation
   useEffect(() => {
     let temp = [...products];
 

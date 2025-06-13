@@ -24,7 +24,7 @@ const MyOrders = () => {
   }, [user]);
 
   return (
-    <div className="mt-16 pb-16">
+    <div className="mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
       <div className="flex flex-col items-end w-max mb-8">
         <p className="text-2xl font-medium uppercase">My orders</p>
         <div className="w-16 h-0.5 bg-[var(--color-primary)] rounded-full"></div>
@@ -33,7 +33,7 @@ const MyOrders = () => {
       {MyOrders.map((order, index) => (
         <div
           key={index}
-          className="border border-gray-300 rounded-lg mb-10 p-4 py-5 max-w-4xl"
+          className="border border-green-700 rounded-lg mb-10 p-4 py-5 max-w-4xl"
         >
           <p className="flex justify-between md:items-center text-gray-400 md:font-medium max-md:flex-col">
             <span>OrderId: {order._id}</span>
