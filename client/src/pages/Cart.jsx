@@ -63,39 +63,22 @@ const Cart = () => {
     setIsProcessing(true);
 
     try {
-      if (paymentOption === "COD") {
-        const { data } = await axios.post("/api/order/cod", {
-          userId: user._id,
-          items: cartArray.map((item) => ({
-            product: item._id,
-            quantity: item.quantity,
-          })),
-          address: selectedAddress._id,
-        });
+      const { data } = await axios.post("/api/order/cod", {
+        userId: user._id,
+        items: cartArray.map((item) => ({
+          product: item._id,
+          quantity: item.quantity,
+        })),
+        address: selectedAddress._id,
+        paymentType: paymentOption,
+      });
 
-        if (data.success) {
-          toast.success(data.message);
-          setCartItems({});
-          navigate("/my-orders");
-        } else {
-          toast.error(data.message);
-        }
+      if (data.success) {
+        toast.success(data.message);
+        setCartItems({});
+        navigate("/my-orders");
       } else {
-        // Stripe payment
-        const { data } = await axios.post("/api/order/stripe", {
-          userId: user._id,
-          items: cartArray.map((item) => ({
-            product: item._id,
-            quantity: item.quantity,
-          })),
-          address: selectedAddress._id,
-        });
-
-        if (data.success) {
-          window.location.href = data.url;
-        } else {
-          toast.error(data.message);
-        }
+        toast.error(data.message);
       }
     } catch (error) {
       toast.error(error.response?.data?.message || "Order failed");
@@ -214,7 +197,7 @@ const Cart = () => {
       </div>
 
       <div className="max-w-[360px] w-full bg-gray-100/40 p-5 max-md:mt-16 border border-gray-300/70">
-        <h2 className="text-xl md:text-xl font-medium">Order Summary</h2>
+        <h2 className="text-xl font-medium">Order Summary</h2>
         <hr className="border-gray-300 my-5" />
 
         <div className="mb-6">
@@ -262,7 +245,7 @@ const Cart = () => {
             className="w-full border border-gray-300 bg-white px-3 py-2 mt-2 outline-none"
           >
             <option value="COD">Cash On Delivery</option>
-            <option value="Online">Online Payment</option>
+            <option value="bKash">Manual bKash Payment</option>
           </select>
         </div>
 
@@ -299,9 +282,9 @@ const Cart = () => {
         >
           {isProcessing
             ? "Processing..."
-            : paymentOption === "COD"
-            ? "Place Order"
-            : "Proceed to Checkout"}
+            : paymentOption === "bKash"
+            ? "Place Order & Pay via bKash"
+            : "Place Order"}
         </button>
       </div>
     </div>
