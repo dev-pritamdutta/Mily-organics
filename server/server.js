@@ -19,7 +19,7 @@ await connectCloudinary();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://greatstack-frontend-iota.vercel.app",
+  "https://mily-organics-backend.vercel.app/",
 ];
 
 
