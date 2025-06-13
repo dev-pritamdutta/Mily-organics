@@ -13,11 +13,14 @@ export const sellerLogin = async (req, res) => {
         expiresIn: "7d",
       });
       res.cookie("sellerToken", token, {
-        httpOnly: true,
-        secure: process.env.NODE_ENV === "production", //use secure cookie in production
-        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", //CSRF PROTECTION
-        maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiration time
-         domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined
+        httpOnly: true, 
+      sameSite:"none",
+      secure: true,
+        // httpOnly: true,
+        // secure: process.env.NODE_ENV === "production", //use secure cookie in production
+        // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", //CSRF PROTECTION
+        // maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiration time
+        //  domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined
       });
       return res.json({ success: true, message: "Logged In" });
     } else {
@@ -50,10 +53,14 @@ export const isSellerAuth = async (req, res) => {
 export const SellerLogout = async (req, res) => {
   try {
     res.clearCookie("sellerToken", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-       domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined
+      httpOnly: true, 
+      sameSite:"none",
+      secure: true,
+      expires: new Date(0),
+      // httpOnly: true,
+      // secure: process.env.NODE_ENV === "production",
+      // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      //  domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined
     });
     return res.json({ success: true, message: "Logged Out" });
   } catch (error) {

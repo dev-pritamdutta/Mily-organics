@@ -22,11 +22,14 @@ export const register = async (req, res) => {
       expiresIn: "7d",
     });
     res.cookie("token", token, {
-      httpOnly: true, //Prevent Javascript to access cookie
-      secure: process.env.NODE_ENV === "production", //use secure cookie in production
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", //CSRF PROTECTION
-      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiration time
-       domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined
+      
+      httpOnly: true, 
+      sameSite:"none",
+      secure: true,
+      // secure: process.env.NODE_ENV === "production", //use secure cookie in production
+      // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", //CSRF PROTECTION
+      // maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiration time
+      //  domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined
     });
     return res.json({
       success: true,
@@ -60,10 +63,13 @@ export const login = async (req, res) => {
       expiresIn: "7d",
     });
     res.cookie("token", token, {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production", //use secure cookie in production
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", //CSRF PROTECTION
-      maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiration time
+      httpOnly: true, 
+      sameSite:"none",
+      secure: true,
+      // httpOnly: true,
+      // secure: process.env.NODE_ENV === "production", //use secure cookie in production
+      // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", //CSRF PROTECTION
+      // maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiration time
     });
     return res.json({
       success: true,
@@ -105,9 +111,12 @@ export const isAuth = async (req, res) => {
 export const logout = async (req, res) => {
   try {
     res.clearCookie("token", {
-      httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+      httpOnly: true, 
+      sameSite:"none",
+      secure: true,
+      // httpOnly: true,
+      // secure: process.env.NODE_ENV === "production",
+      // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
     return res.json({ success: true, message: "Logged Out" });
   } catch (error) {
