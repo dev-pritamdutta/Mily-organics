@@ -44,7 +44,7 @@ const Navbar = () => {
       <div className="flex items-center justify-between px-4 md:px-16 lg:px-24 xl:px-32 py-3">
         {/* Logo */}
         <NavLink to="/" onClick={() => setOpen(false)} className="flex-shrink-0">
-          <img className="h-16 rounded-xl w-24 md:h-16" src={logo} alt="logo" />
+          <img className="h-16 rounded-xl w-16 md:h-16" src={logo} alt="logo" />
         </NavLink>
 
         {/* Desktop Menu */}

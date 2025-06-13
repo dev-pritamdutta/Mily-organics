@@ -42,7 +42,7 @@ const SellerLayout = () => {
           <img
             src={assets.logo}
             alt="logo"
-            className="cursor-pointer h-16 rounded-xl w-24 md:h-16"
+            className="cursor-pointer h-16 rounded-xl w-16 md:h-16"
           />
         </Link>
         <div className="flex items-center gap-5 text-white">
