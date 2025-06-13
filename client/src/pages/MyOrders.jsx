@@ -35,7 +35,7 @@ const MyOrders = () => {
           key={index}
           className="border border-green-700 rounded-lg mb-10 p-4 py-5 max-w-4xl"
         >
-          <p className="flex justify-between md:items-center text-gray-400 md:font-medium max-md:flex-col">
+          <p className="flex justify-between md:items-center mb-3 text-gray-400 md:font-medium max-md:flex-col">
             <span>OrderId: {order._id}</span>
             <span>payment: {order.paymentType}</span>
             <span>
@@ -73,8 +73,16 @@ const MyOrders = () => {
 
                 <div className="flex flex-col justify-center md:ml-8 mb-4 md:mb-0">
                   <p>Quantity: {item.quantity || "1"}</p>
-                  <p>Status: {order.status}</p>
-                  <p className="text-black">Date: {new Date(order.createdAt).toLocaleDateString()}</p>
+                  <p className="text-sm text-gray-500">
+                    Payment:{" "}
+                    {order.bKashInfo?.paymentStatus ||
+                      (order.isPaid ? "Paid" : "Pending")}
+                  </p>
+                  <p>Order Status: {order.status}</p>
+
+                  <p className="text-black">
+                    Date: {new Date(order.createdAt).toLocaleDateString()}
+                  </p>
                 </div>
 
                 <p className="text-[var(--color-primary)] text-lg font-medium">
