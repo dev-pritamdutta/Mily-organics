@@ -26,6 +26,7 @@ export const register = async (req, res) => {
       secure: process.env.NODE_ENV === "production", //use secure cookie in production
       sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", //CSRF PROTECTION
       maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiration time
+       domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined
     });
     return res.json({
       success: true,
@@ -75,14 +76,31 @@ export const login = async (req, res) => {
 };
 //check Auth :/api/user/is-auth
 export const isAuth = async (req, res) => {
+  if (!req.userId) {
+    return res.status(401).json({ success: false, message: "Unauthorized" });
+  }
+
   try {
     const user = await User.findById(req.userId).select("-password");
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found" });
+    }
     return res.json({ success: true, user });
   } catch (error) {
     console.log(error.message);
-    res.json({ success: false, message: error.message });
+    res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// export const isAuth = async (req, res) => {
+//   try {
+//     const user = await User.findById(req.userId).select("-password");
+//     return res.json({ success: true, user });
+//   } catch (error) {
+//     console.log(error.message);
+//     res.json({ success: false, message: error.message });
+//   }
+// };
 //Logout User:/api/user/logout
 export const logout = async (req, res) => {
   try {
@@ -108,4 +126,6 @@ export const getAllUsers = async (req, res) => {
     res.json({ success: false, message: error.message });
   }
 };
+
+//creating this for deploy issue:
 
