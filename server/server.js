@@ -48,7 +48,7 @@ app.use((req, res, next) => {
   next();
 });
 
-// app.use(cors({ origin: allowedOrigins, credentials: true }));
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
 app.get("/", (req, res) => res.send("API is Working"));
 app.use("/api/user", userRouter);
