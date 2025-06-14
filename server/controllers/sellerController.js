@@ -13,14 +13,10 @@ export const sellerLogin = async (req, res) => {
         expiresIn: "7d",
       });
       res.cookie("sellerToken", token, {
-        httpOnly: true, 
-      sameSite:"none",
-      secure: true,
-        // httpOnly: true,
-        // secure: process.env.NODE_ENV === "production", //use secure cookie in production
-        // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", //CSRF PROTECTION
-        // maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiration time
-        //  domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production", //use secure cookie in production
+        sameSite: process.env.NODE_ENV === "production" ? "none" : "strict", //CSRF PROTECTION
+        maxAge: 7 * 24 * 60 * 60 * 1000, //cookie expiration time
       });
       return res.json({ success: true, message: "Logged In" });
     } else {
@@ -34,33 +30,21 @@ export const sellerLogin = async (req, res) => {
 
 //Seller isAuth :/api/seller/is-auth
 export const isSellerAuth = async (req, res) => {
-  if (!req.sellerEmail) {
-    return res.status(401).json({ success: false, message: "Unauthorized" });
+  try {
+    return res.json({ success: true });
+  } catch (error) {
+    console.log(error.message);
+    res.json({ success: false, message: error.message });
   }
-  return res.json({ success: true });
 };
-
-// export const isSellerAuth = async (req, res) => {
-//   try {
-//     return res.json({ success: true });
-//   } catch (error) {
-//     console.log(error.message);
-//     res.json({ success: false, message: error.message });
-//   }
-// };
 
 //Logout Seller:/api/seller/logout
 export const SellerLogout = async (req, res) => {
   try {
     res.clearCookie("sellerToken", {
-      httpOnly: true, 
-      sameSite:"none",
-      secure: true,
-      expires: new Date(0),
-      // httpOnly: true,
-      // secure: process.env.NODE_ENV === "production",
-      // sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
-      //  domain: process.env.NODE_ENV === "production" ? ".vercel.app" : undefined
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
     });
     return res.json({ success: true, message: "Logged Out" });
   } catch (error) {
