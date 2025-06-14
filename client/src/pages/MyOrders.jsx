@@ -5,147 +5,101 @@ import { assets, dummyOrders } from "../assets/assets";
 const MyOrders = () => {
   const [MyOrders, setMyOrders] = useState([]);
   const { currency, axios, user } = useAppContext();
-  const [loading, setLoading] = useState(true);
 
   const fetchMyOrders = async () => {
-    // Check if user is authenticated before making API call
-    if (!user) {
-      setLoading(false);
-      return;
-    }
-
     try {
-      setLoading(true);
       const { data } = await axios.get("/api/order/user");
       if (data.success) {
         setMyOrders(data.orders);
-      } else {
-        console.error("Failed to fetch orders:", data.message);
       }
     } catch (error) {
-      console.error("Error fetching orders:", error);
-      // Don't show toast error for auth failures on page load
-      if (error.response?.status !== 401 && error.response?.status !== 403) {
-        console.error("Unexpected error fetching orders");
-      }
-    } finally {
-      setLoading(false);
+      console.log(error);
     }
   };
 
   useEffect(() => {
-    fetchMyOrders();
-  }, [user]); // Add user as dependency
-
-  // Show loading state
-  if (loading) {
-    return (
-      <div className="p-4">
-        <div className="text-center">Loading your orders...</div>
-      </div>
-    );
-  }
-
-  // Show login message if not authenticated
-  if (!user) {
-    return (
-      <div className="p-4">
-        <div className="text-center">
-          <p>Please login to view your orders.</p>
-        </div>
-      </div>
-    );
-  }
+    if (user) {
+      fetchMyOrders();
+    }
+  }, [user]);
 
   return (
-    <div className="border-t pt-16">
-      <div className="text-2xl">
-        <p>My orders</p>
+    <div className="mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
+      <div className="flex flex-col items-end w-max mb-8">
+        <p className="text-2xl font-medium uppercase">My orders</p>
+        <div className="w-16 h-0.5 bg-[var(--color-primary)] rounded-full"></div>
       </div>
-      <div>
-        {MyOrders.map((order, index) => (
-          <div
-            key={order._id}
-            className="py-4 border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-          >
-            <div className="flex items-start gap-6 text-sm">
-              <div>
-                OrderId: {order._id}
-                <br />
-                payment: {order.paymentType}
-              </div>
-              <div className="w-16 sm:w-20">
-                <div>
-                  Total Amount: {currency}
-                  {order.amount}
-                </div>
-              </div>
-            </div>
-            {order.items.map((item, index) => {
-              const product = item.product;
-              return (
-                <div
-                  key={index}
-                  className="py-4 border-b text-gray-700 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
-                >
-                  <div className="flex items-start gap-6 text-sm">
-                    <div>
-                      <div className="w-16 sm:w-20">
-                        {product?.image && (
-                          <img
-                            className="w-16 sm:w-20"
-                            src={product.image[0]}
-                            alt=""
-                          />
-                        )}
-                      </div>
-                    </div>
-                    <div>
-                      <div>
-                        <p className="sm:text-base font-medium">
-                          {product?.name || "Unnamed Product"}
-                        </p>
-                      </div>
-                      <div>Category: {product?.category || "N/A"}</div>
-                    </div>
+
+      {MyOrders.map((order, index) => (
+        <div
+          key={index}
+          className="border border-green-700 rounded-lg mb-10 p-4 py-5 max-w-4xl"
+        >
+          <p className="flex justify-between md:items-center mb-3 text-gray-400 md:font-medium max-md:flex-col">
+            <span>OrderId: {order._id}</span>
+            <span>payment: {order.paymentType}</span>
+            <span>
+              Total Amount: {currency}
+              {order.amount}
+            </span>
+          </p>
+
+          {order.items.map((item, index) => {
+            const product = item.product;
+            return (
+              <div
+                key={index}
+                className={`relative bg-white text-gray-500/70 ${
+                  order.items.length !== index + 1 && "border-b"
+                } border-gray-300 flex flex-col md:flex-row md:items-center justify-between p-4 py-5 md:gap-16 w-full max-w-4xl`}
+              >
+                <div className="flex items-center mb-4 md:mb-0">
+                  <div className="bg-[var(--color-primary)]/10 p-4 rounded-lg">
+                    {product?.image && (
+                      <img
+                        src={product.image[0]}
+                        alt={product.name || "Product"}
+                        className="w-16 h-16"
+                      />
+                    )}
                   </div>
-                  <div className="md:w-1/2 flex justify-between">
-                    <div className="flex items-center gap-2">
-                      <p>Quantity: {item.quantity || "1"}</p>
-                      <div>
-                        <p>
-                          Payment:{" "}
-                          {order.bKashInfo?.paymentStatus ||
-                            (order.isPaid ? "Paid" : "Pending")}
-                        </p>
-                      </div>
-                      <div>Order Status: {order.status}</div>
-                      <div>
-                        <p>
-                          Date: {new Date(order.createdAt).toLocaleDateString()}
-                        </p>
-                      </div>
-                    </div>
-                    <div>
-                      <p>
-                        Amount: {currency}
-                        {product?.offerPrice
-                          ? product.offerPrice * item.quantity
-                          : "N/A"}
-                      </p>
-                    </div>
+                  <div className="ml-4">
+                    <h2 className="text-xl font-medium text-gray-800">
+                      {product?.name || "Unnamed Product"}
+                    </h2>
+                    <p>Category: {product?.category || "N/A"}</p>
                   </div>
                 </div>
-              );
-            })}
-          </div>
-        ))}
-        {MyOrders.length === 0 && (
-          <div className="text-center p-4">
-            <p>No orders found.</p>
-          </div>
-        )}
-      </div>
+
+                <div className="flex flex-col justify-center md:ml-8 mb-4 md:mb-0">
+                  <p>Quantity: {item.quantity || "1"}</p>
+                  <p className="text-sm text-gray-500">
+                    Payment:{" "}
+                    {order.bKashInfo?.paymentStatus ||
+                      (order.isPaid ? "Paid" : "Pending")}
+                  </p>
+                  <p>Order Status: {order.status}</p>
+
+                  <p className="text-black">
+                    Date: {new Date(order.createdAt).toLocaleDateString()}
+                  </p>
+                </div>
+
+                <p className="text-[var(--color-primary)] text-lg font-medium">
+                  Amount: {currency}
+                  {product?.offerPrice
+                    ? product.offerPrice * item.quantity
+                    : "N/A"}
+                </p>
+              </div>
+            );
+          })}
+        </div>
+      ))}
+
+      {MyOrders.length === 0 && (
+        <p className="text-center text-gray-500 mt-8">No orders found.</p>
+      )}
     </div>
   );
 };
