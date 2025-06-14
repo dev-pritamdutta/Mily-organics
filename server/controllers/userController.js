@@ -58,13 +58,15 @@ export const login = async (req, res) => {
     const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
       expiresIn: "7d",
     });
-    res.cookie("token", token, {
+res.cookie("token", token, {
   httpOnly: true,
-  secure: true,
-  sameSite: "None",
-  domain: ".vercel.app",
-  maxAge: 7 * 24 * 60 * 60 * 1000
+  secure: process.env.NODE_ENV === "production",
+  sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax",
+  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
 });
+
+
+
     return res.json({
       success: true,
       user: { _id: user._id, email: user.email, name: user.name },

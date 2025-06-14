@@ -6,6 +6,7 @@ import axios from "axios";
 axios.defaults.withCredentials = true;
 axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 
+
 export const AppContext = createContext();
 
 export const AppContextProvider = ({ children }) => {
@@ -21,7 +22,7 @@ export const AppContextProvider = ({ children }) => {
 
   const fetchSeller = async () => {
     try {
-      const { data } = await axios.get("/api/seller/is-auth");
+      const { data } = await axios.get("/api/user/is-auth");
       if (data.success) {
         setIsSeller(true);
       } else {

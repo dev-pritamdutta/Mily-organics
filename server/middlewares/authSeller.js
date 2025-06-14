@@ -1,23 +1,21 @@
 import jwt from "jsonwebtoken";
 
 const authSeller = (req, res, next) => {
-  const { sellerToken } = req.cookies;
-
-  if (!sellerToken) {
-    return res.status(403).json({ success: false, message: "Not logged in as seller" });
-  }
+  const token = req.cookies.sellerToken;
+  if (!token) return res.status(403).json({ success: false, message: "No seller token" });
 
   try {
-    const decoded = jwt.verify(sellerToken, process.env.JWT_SECRET);
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
     if (decoded.email === process.env.SELLER_EMAIL) {
       next();
     } else {
-      return res.status(403).json({ success: false, message: "Invalid seller token" });
+      return res.status(403).json({ success: false, message: "Unauthorized seller" });
     }
-  } catch (error) {
-    return res.status(403).json({ success: false, message: "Invalid token" });
+  } catch {
+    return res.status(403).json({ success: false, message: "Invalid seller token" });
   }
 };
+
 
 
 export default authSeller;
