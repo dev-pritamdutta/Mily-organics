@@ -98,7 +98,7 @@ const Cart = () => {
   if (!products.length || !cartItems) return null;
 
   return (
-    <div className="flex max-w-7xl mx-auto px-4 sm:px-6 lg:px-8flex-col md:flex-row mt-16">
+    <div className="flex flex-col md:flex-row mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex-1 max-w-4xl">
         <h1 className="text-3xl font-medium mb-6">
           Shopping Cart{" "}
