@@ -19,15 +19,23 @@ await connectCloudinary();
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://mily-organics.vercel.app",
+  "https://mily-organics.vercel.app"
 ];
 
 
 //Middleware configuration
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: allowedOrigins, credentials: true }));
-
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+}));
 app.get("/", (req, res) => res.send("API is Working"));
 app.use("/api/user", userRouter);
 app.use("/api/seller", sellerRouter);
