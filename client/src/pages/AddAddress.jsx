@@ -68,7 +68,7 @@ const AddAddress = () => {
   }, []);
 
   return (
-    <div className="mt-16 pb-16">
+    <div className="mt-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <p className="text-2xl md:text-3xl text-gray-500">
         Add shipping{" "}
         <span className="font-semibold text-[var(--color-primary)]">

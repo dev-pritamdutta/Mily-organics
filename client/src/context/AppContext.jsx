@@ -17,8 +17,9 @@ export const AppContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState({});
   const [searchQuery, setSearchQuery] = useState({});
-  //Fetch Seller Status
+  const [authLoading, setAuthLoading] = useState(true); // Add loading state
 
+  //Fetch Seller Status
   const fetchSeller = async () => {
     try {
       const { data } = await axios.get("/api/seller/is-auth");
@@ -28,7 +29,12 @@ export const AppContextProvider = ({ children }) => {
         setIsSeller(false);
       }
     } catch (error) {
+      // Silently handle auth failures - this is expected when not logged in
       setIsSeller(false);
+      // Only log unexpected errors (not 401/403)
+      if (error.response?.status !== 401 && error.response?.status !== 403) {
+        console.error("Unexpected error checking seller auth:", error);
+      }
     }
   };
 
@@ -38,10 +44,18 @@ export const AppContextProvider = ({ children }) => {
       const { data } = await axios.get("/api/user/is-auth");
       if (data.success) {
         setUser(data.user);
-        setCartItems(data.user.cartItems);
+        setCartItems(data.user.cartItems || {});
       }
     } catch (error) {
+      // Silently handle auth failures - this is expected when not logged in
       setUser(null);
+      setCartItems({});
+      // Only log unexpected errors (not 401/403)
+      if (error.response?.status !== 401 && error.response?.status !== 403) {
+        console.error("Unexpected error checking user auth:", error);
+      }
+    } finally {
+      setAuthLoading(false);
     }
   };
 
@@ -55,12 +69,19 @@ export const AppContextProvider = ({ children }) => {
         toast.error(data.message);
       }
     } catch (error) {
-      toast.error(error.message);
+      console.error("Error fetching products:", error);
+      toast.error("Failed to load products");
     }
   };
 
   //Add Product To Cart
-  const addToCart = (itemId) => {
+  const addToCart = async (itemId) => {
+    if (!user) {
+      toast.error("Please login to add items to cart");
+      setShowUserLogin(true);
+      return;
+    }
+
     let cartData = structuredClone(cartItems);
     if (cartData[itemId]) {
       cartData[itemId] += 1;
@@ -72,7 +93,12 @@ export const AppContextProvider = ({ children }) => {
   };
 
   //Update Cart Item quantity
-  const updateCartItem = (itemId, quantity) => {
+  const updateCartItem = async (itemId, quantity) => {
+    if (!user) {
+      toast.error("Please login to update cart");
+      return;
+    }
+
     let cartData = structuredClone(cartItems);
     cartData[itemId] = quantity;
     setCartItems(cartData);
@@ -80,7 +106,12 @@ export const AppContextProvider = ({ children }) => {
   };
 
   //Remove Product from Cart
-  const removeFromCart = (itemId) => {
+  const removeFromCart = async (itemId) => {
+    if (!user) {
+      toast.error("Please login to remove items from cart");
+      return;
+    }
+
     let cartData = structuredClone(cartItems);
     if (cartData[itemId]) {
       cartData[itemId] -= 1;
@@ -91,6 +122,7 @@ export const AppContextProvider = ({ children }) => {
     toast.success("Removed from Cart");
     setCartItems(cartData);
   };
+
   //Get Cart Items Count
   const getCartCount = () => {
     let totalCount = 0;
@@ -99,6 +131,7 @@ export const AppContextProvider = ({ children }) => {
     }
     return totalCount;
   };
+
   // Get Cart Total Amount
   const getCartAmount = () => {
     let totalAmount = 0;
@@ -108,32 +141,38 @@ export const AppContextProvider = ({ children }) => {
         totalAmount += itemInfo.offerPrice * cartItems[items];
       }
     }
-    return Number(totalAmount.toFixed(2)); //
+    return Number(totalAmount.toFixed(2));
   };
 
   useEffect(() => {
-    fetchUser();
-    fetchSeller();
-    fetchProducts();
+    // Initialize auth state on app load
+    const initializeAuth = async () => {
+      setAuthLoading(true);
+      await Promise.all([fetchUser(), fetchSeller(), fetchProducts()]);
+      setAuthLoading(false);
+    };
+
+    initializeAuth();
   }, []);
 
   //Update Database Cart Items
   useEffect(() => {
     const updateCart = async () => {
+      if (!user || authLoading) return;
+
       try {
         const { data } = await axios.post("/api/cart/update", { cartItems });
         if (!data.success) {
-          toast.error(data.message);
+          console.error("Failed to update cart:", data.message);
         }
       } catch (error) {
-        toast.error(error.message);
+        console.error("Error updating cart:", error);
+        // Don't show toast for cart update failures
       }
     };
 
-    if (user) {
-      updateCart();
-    }
-  }, [cartItems]);
+    updateCart();
+  }, [cartItems, user, authLoading]);
 
   const value = {
     navigate,
@@ -156,10 +195,14 @@ export const AppContextProvider = ({ children }) => {
     axios,
     fetchProducts,
     setCartItems,
+    authLoading,
+    fetchUser, // Expose these for manual refresh
+    fetchSeller,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
+
 export const useAppContext = () => {
   return useContext(AppContext);
 };
