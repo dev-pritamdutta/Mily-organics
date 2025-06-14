@@ -32,6 +32,8 @@ app.use(cors({
 app.use(express.json());
 app.use(cookieParser());
 
+
+
 app.get("/", (req, res) => res.send("API is Working"));
 app.use("/api/user", userRouter);
 app.use("/api/seller", sellerRouter);
@@ -42,4 +44,9 @@ app.use("/api/order", orderRouter);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
+});
+
+app.get("/debug-cookies", (req, res) => {
+  console.log("Cookies on debug route:", req.cookies);
+  res.json({ cookies: req.cookies });
 });
