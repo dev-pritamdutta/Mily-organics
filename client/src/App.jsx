@@ -30,6 +30,7 @@ const App = () => {
     <div className="text-default min-h-screen  text-gray-700 bg-[#f1eee8] ">
       {isSellerPath ? null : <Navbar />}
       {showUserLogin ? <Login /> : null}
+      {isSeller ? <SellerDashboard /> : <Navigate to="/seller-login" />}
 
       <Toaster />
 
@@ -42,6 +43,7 @@ const App = () => {
             </>
           }
         />
+
         <Route path="/products" element={<AllProducts />} />
         <Route path="/products/:category" element={<ProductCategory />} />
 
@@ -54,15 +56,18 @@ const App = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
 
-        <Route
-          path="/seller"
-          element={isSeller ? <SellerLayout /> : <SellerLogin />}
-        >
-          <Route index element={isSeller ? <AddProduct /> : null} />
-          <Route path="all-users" element={<AllUsers />} />
-          <Route path="product-list" element={<ProductList />} />
-          <Route path="orders" element={<Orders />} />
-          <Route path="edit/:id" element={<EditProduct />} />
+        <Route path="/seller" element={<SellerLayout />}>
+          <Route
+            index
+            element={isSeller ? <AddProduct /> : <Navigate to="/seller" />}
+          />
+
+          <Route element={<ProtectedSellerRoute />}>
+            <Route path="product-list" element={<ProductList />} />
+            <Route path="orders" element={<Orders />} />
+            <Route path="edit/:id" element={<EditProduct />} />
+            <Route path="all-users" element={<AllUsers />} />
+          </Route>
         </Route>
       </Routes>
 

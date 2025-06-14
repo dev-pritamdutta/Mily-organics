@@ -1,6 +1,8 @@
 import jwt from "jsonwebtoken";
 
 const authSeller = (req, res, next) => {
+  console.log("Seller Cookies:", req.cookies);
+
   const token = req.cookies.sellerToken;
   if (!token) return res.status(403).json({ success: false, message: "No seller token" });
 

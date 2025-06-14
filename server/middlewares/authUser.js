@@ -1,8 +1,9 @@
 import jwt from "jsonwebtoken";
 
 const authUser = (req, res, next) => {
-  console.log("Cookies:", req.cookies); 
+  console.log("Cookies:", req.cookies); // <--- debug
   const token = req.cookies.token;
+
   if (!token) return res.status(401).json({ success: false, message: "No token" });
 
   try {
@@ -13,6 +14,7 @@ const authUser = (req, res, next) => {
     return res.status(403).json({ success: false, message: "Invalid token" });
   }
 };
+
 
 
 
